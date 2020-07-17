@@ -12,7 +12,9 @@ Don&amp;rsquo;t let me down
 Don&amp;rsquo;t let me down
 What do I have to give
 Until you let me live?
-You&amp;rsquo;re all that I work for</description></item><item><title>Hugo: Setup and Deploy Site using GitHub Actions</title><link>https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/</link><pubDate>Mon, 13 Jul 2020 00:00:00 +0000</pubDate><guid>https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/</guid><description>
+You&amp;rsquo;re all that I work for</description></item><item><title>Working with GitHub in VS Code</title><link>https://maurogabriel.com.ar/posts/github-on-vstusio-code/</link><pubDate>Fri, 17 Jul 2020 00:00:00 +0000</pubDate><guid>https://maurogabriel.com.ar/posts/github-on-vstusio-code/</guid><description>
+&lt;img src="https://maurogabriel.com.ar/img/github-vscode.jpg"/>
+Working with GitHub in VS Code</description></item><item><title>Hugo: Setup and Deploy Site using GitHub Actions</title><link>https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/</link><pubDate>Mon, 13 Jul 2020 00:00:00 +0000</pubDate><guid>https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/</guid><description>
 Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.
 Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día.</description></item><item><title>Introduction to Hugo Templating</title><link>https://maurogabriel.com.ar/posts/introduction-to-hugo-templating/</link><pubDate>Mon, 13 Jul 2020 00:00:00 +0000</pubDate><guid>https://maurogabriel.com.ar/posts/introduction-to-hugo-templating/</guid><description>
 Hugo uses Go’s ’html/template’ and ‘text/template’ libraries as the basis for the templating.
