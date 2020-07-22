@@ -1,17 +1,176 @@
-<!doctype html><html lang=en><head><title>Hugo: Setup and Deploy Site using GitHub Actions :: Mauro Gabriel — A simple blog to share</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=description content="Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.
-Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/><link rel=stylesheet href=https://maurogabriel.com.ar/assets/style.css><link rel=stylesheet href=https://maurogabriel.com.ar/style.css><link rel=apple-touch-icon-precomposed sizes=144x144 href=https://maurogabriel.com.ar/img/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=https://maurogabriel.com.ar/img/favicon.png><meta name=twitter:card content="summary"><meta name=twitter:title content="Hugo: Setup and Deploy Site using GitHub Actions"><meta name=twitter:description content="Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.
-Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día."><meta property="og:title" content="Hugo: Setup and Deploy Site using GitHub Actions"><meta property="og:description" content="Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.
-Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día."><meta property="og:type" content="article"><meta property="og:url" content="https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/"><meta property="article:published_time" content="2020-07-13T00:00:00+00:00"><meta property="article:modified_time" content="2020-07-13T00:00:00+00:00"><meta property="og:site_name" content="Mauro Gabriel"></head><body><div class=container><header class=header><span class=header__inner><a href=/ class=logo style=text-decoration:none><span class=logo__mark><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44"><path fill="none" d="M15 8l14.729 14.382L15 35.367"/></svg></span><span class=logo__text>mauro gabriel</span>
-<span class=logo__cursor></span></a><span class=header__right><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/about>About</a></li><li><a href=/archive>Archive</a></li></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/about>About</a></li><li><a href=/archive>Archive</a></li></ul></nav><span class=menu-trigger><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></span><span class=theme-toggle><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22 41 11.5066 32.4934 3 22 3 11.5066 3 3 11.5066 3 22s8.5066 19 19 19zM7 22C7 13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22z"/></svg></span></span></span></header><div class=content><div class=post><h1 class=post-title><a href=https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/>Hugo: Setup and Deploy Site using GitHub Actions</a></h1><div class=post-meta><span class=post-date>2020-07-13</span>
-<span class=post-author>— Written by Mauro</span></div><span class=post-tags>#<a href=https://maurogabriel.com.ar/tags/hugo/>Hugo</a>&nbsp;
-#<a href=https://maurogabriel.com.ar/tags/github/>GitHub</a>&nbsp;</span><div class=post-content><p>Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.</p><p>Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día. Esto implicaría utilizar una gran cantidad de comandos y acciones que terminarían de cansarte.</p><p>Felizmente ahora es posible automatizar gran parte de ese desarrollo con GitHub Actions. Veamos que es esta nueva herramienta y cómo podemos configurar un workflow para mantener nuestro sitio (en el ejmplo de este artículo vamos a usar GitHub Pages para alojar nuestro sitio web).</p><p>GitHub Actions
-Esta herramienta es un CI/CD para automatizar, testear, construir y desplegar varios procesos en GitHub, definidos en un solo archivo <code>.yml</code>. Es el equivalente y la respuesta de GitHub al CI/CD de GitLab. Esto te permite ahorrar una enorme cantidad de tiempo y comandos que te permitirán obtener resultados casi instantáneos en tu sitio.</p><p>Ahora veamos paso por paso como configurar nuestro sitio y definir el workflow en Actions.</p><p>Paso 1: Vamos a crear un repositorio con nuestro nombre de usuario en la siguiente forma <em><strong>mauro/mauro.github.io</strong></em>, esto nos permitirá utilizar GitHub Pages para alojar nuestro sitio y definir mas adelante un dominio propio que apunte a esta dirección. Este repositorio servirá de host de nuestro sitio estático.</p><p>Paso 2: Crear un repostorio donde subiremos el sitio que desarrollaremos con HUGO localmente. Puede ser algo asi: <em><strong>mauro/hugo.github.io</strong></em></p><p>Paso 3: Ahora vamos a clonar con git el repositorio que creamos en <em><strong>mauro/hugo.github.io</strong></em> a una carpeta local. No te desesperes si te advierte la consola que no hay nada para clonar (por el momento).</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>git clone https://github.com/mauro/hugo <span style=color:#f92672>&amp;&amp;</span> cd /Users/mauro/Documents/ <span style=color:#75715e>#En este caso se clonara el repositorio Hugo creando una carpeta local en /Users/mauro/Documents/Hugo</span>  
-</code></pre></div><p>Paso 4: En este paso hice lo siguiente. Como ya tenia creado un sitio con Hugo en otra carpeta, solo copie los archivos necesarios y los pegue aqui. De tal modo que esos serán los archivos que se clonarán al repositorio.</p><p>Paso 5: Ahora con el tenido en la carpeta vamos a subir son git el contenido a nuestro repositorio que será nuestro espacio de desarrollo para nuestro sitio.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>git init
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+      <title>Hugo: Setup and Deploy Site using GitHub Actions :: Mauro Gabriel — A simple blog to share</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="description" content="Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.
+Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día."/>
+<meta name="keywords" content=""/>
+<meta name="robots" content="noodp"/>
+<link rel="canonical" href="https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/" />
+
+
+
+
+
+<link rel="stylesheet" href="https://maurogabriel.com.ar/assets/style.css">
+
+
+<link rel="stylesheet" href="https://maurogabriel.com.ar/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://maurogabriel.com.ar/img/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="https://maurogabriel.com.ar/img/favicon.png">
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hugo: Setup and Deploy Site using GitHub Actions"/>
+<meta name="twitter:description" content="Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.
+Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día."/>
+
+
+
+<meta property="og:title" content="Hugo: Setup and Deploy Site using GitHub Actions" />
+<meta property="og:description" content="Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.
+Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/" />
+<meta property="article:published_time" content="2020-07-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-07-13T00:00:00+00:00" /><meta property="og:site_name" content="Mauro Gabriel" />
+
+
+
+
+
+
+  </head>
+  <body class="">
+    <div class="container">
+      <header class="header">
+  <span class="header__inner">
+    <a href="/" class="logo" style="text-decoration: none;">
+  
+    <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44">
+  <path fill="none" d="M15 8l14.729 14.382L15 35.367"/>
+</svg>
+</span>
+    <span class="logo__text">mauro gabriel</span>
+    <span class="logo__cursor"></span>
+  
+</a>
+
+    <span class="header__right">
+      
+        <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/archive">Archive</a></li>
+        
+      
+      
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/archive">Archive</a></li>
+      
+    
+  </ul>
+</nav>
+
+        <span class="menu-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+        </span>
+      
+      <span class="theme-toggle">
+        <svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+
+      </span>
+    </span>
+  </span>
+</header>
+
+
+      <div class="content">
+        
+  
+  
+
+  <div class="post">
+    <h1 class="post-title"><a href="https://maurogabriel.com.ar/posts/hugo-setup-deploy-github-actions/">Hugo: Setup and Deploy Site using GitHub Actions</a></h1>
+    <div class="post-meta">
+      
+        <span class="post-date">
+          2020-07-13
+        </span>
+
+        
+          
+        
+      
+
+      <span class="post-author">— Written by Mauro</span>
+      
+    </div>
+
+    
+      <span class="post-tags">
+        
+          #<a href="https://maurogabriel.com.ar/tags/hugo/">Hugo</a>&nbsp;
+        
+          #<a href="https://maurogabriel.com.ar/tags/github/">GitHub</a>&nbsp;
+        
+      </span>
+    
+
+    
+
+    <div class="post-content">
+      
+      <p>Si estas usando HUGO para generar tu blog, proyecto o sitio web seguro estás familiarizado con la línea de comando para construir y testear tu sitio en de forma local para luego subirlo con a tu repositorio de preferencia.</p>
+<p>Para muchos es un desafio mantener un proyecto de esta manera, en especial al no contar con una interfaz gráfica al estilo Wordpress y menos si tenes que hacer cambios continuos a un artículo o subir varios artículos al día. Esto implicaría utilizar una gran cantidad de comandos y acciones que terminarían de cansarte.</p>
+<p>Felizmente ahora es posible automatizar gran parte de ese desarrollo con GitHub Actions. Veamos que es esta nueva herramienta y cómo podemos configurar un workflow para mantener nuestro sitio (en el ejmplo de este artículo vamos a usar GitHub Pages para alojar nuestro sitio web).</p>
+<p>GitHub Actions
+Esta herramienta es un CI/CD para automatizar, testear, construir y desplegar varios procesos en GitHub, definidos en un solo archivo <code>.yml</code>. Es el equivalente y la respuesta de GitHub al CI/CD de GitLab. Esto te permite ahorrar una enorme cantidad de tiempo y comandos que te permitirán obtener resultados casi instantáneos en tu sitio.</p>
+<p>Ahora veamos paso por paso como configurar nuestro sitio y definir el workflow en Actions.</p>
+<p>Paso 1: Vamos a crear un repositorio con nuestro nombre de usuario en la siguiente forma <em><strong>mauro/mauro.github.io</strong></em>, esto nos permitirá utilizar GitHub Pages para alojar nuestro sitio y definir mas adelante un dominio propio que apunte a esta dirección. Este repositorio servirá de host de nuestro sitio estático.</p>
+<p>Paso 2: Crear un repostorio donde subiremos el sitio que desarrollaremos con HUGO localmente. Puede ser algo asi: <em><strong>mauro/hugo.github.io</strong></em></p>
+<p>Paso 3: Ahora vamos a clonar con git el repositorio que creamos en <em><strong>mauro/hugo.github.io</strong></em> a una carpeta local. No te desesperes si te advierte la consola que no hay nada para clonar (por el momento).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/mauro/hugo <span style="color:#f92672">&amp;&amp;</span> cd /Users/mauro/Documents/ <span style="color:#75715e">#En este caso se clonara el repositorio Hugo creando una carpeta local en /Users/mauro/Documents/Hugo</span>  
+</code></pre></div><p>Paso 4: En este paso hice lo siguiente. Como ya tenia creado un sitio con Hugo en otra carpeta, solo copie los archivos necesarios y los pegue aqui. De tal modo que esos serán los archivos que se clonarán al repositorio.</p>
+<p>Paso 5: Ahora con el tenido en la carpeta vamos a subir son git el contenido a nuestro repositorio que será nuestro espacio de desarrollo para nuestro sitio.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git init
 git remote add origin git@github.com:mauro/hugo
 git add --all
-git commit -m <span style=color:#e6db74>&#34;Commit Message&#34;</span>
+git commit -m <span style="color:#e6db74">&#34;Commit Message&#34;</span>
 git push origin master
-</code></pre></div><p>Paso 6: Creamos un Token en GitHub. Esto nos permitirá dar las credenciales al workflow que vamos a cargar en Actions para automatizar nuestras tareas. Vamos a Settings>Developer settings>Personal access tokens y generamos un nuevo Token. Copiamos el código y lo pegamos en algún lado seguro pues lo necesitarás para este y otros trabajos más adelante.</p><p>Paso 7: Ahora vamos al repositorio <a href=https://github.com/mauro/hugo>https://github.com/mauro/hugo</a> a Settings>Secrets y agregamos un nuevo Secret. Aqui pegamos el token que copiamos.</p><p>Paso 8: Ahora si creamos nuestro workflos en GiuHub Actions. En el repositorio <a href=https://github.com/mauro/hugo>https://github.com/mauro/hugo</a> vamos a Actions y creamos un nuevo workflow. Vamos a cargar un nuevo workflow que se alojará en la dirección <code>hugo/.github/workflows/main.yml</code>.</p><p>Aqui vamos a pegar el sigueinte código:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>name: CI
+</code></pre></div><p>Paso 6: Creamos un Token en GitHub. Esto nos permitirá dar las credenciales al workflow que vamos a cargar en Actions para automatizar nuestras tareas. Vamos a Settings&gt;Developer settings&gt;Personal access tokens y generamos un nuevo Token. Copiamos el código y lo pegamos en algún lado seguro pues lo necesitarás para este y otros trabajos más adelante.</p>
+<p>Paso 7: Ahora vamos al repositorio <a href="https://github.com/mauro/hugo">https://github.com/mauro/hugo</a> a Settings&gt;Secrets y agregamos un nuevo Secret. Aqui pegamos el token que copiamos.</p>
+<p>Paso 8: Ahora si creamos nuestro workflos en GiuHub Actions. En el repositorio <a href="https://github.com/mauro/hugo">https://github.com/mauro/hugo</a> vamos a Actions y creamos un nuevo workflow. Vamos a cargar un nuevo workflow que se alojará en la dirección <code>hugo/.github/workflows/main.yml</code>.</p>
+<p>Aqui vamos a pegar el sigueinte código:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">name: CI
 on: push
 jobs:
   deploy:
@@ -21,38 +180,101 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Update theme
-        <span style=color:#75715e># (Optional)If you have the theme added as submodule, you can pull it and use the most updated version</span>
+        <span style="color:#75715e"># (Optional)If you have the theme added as submodule, you can pull it and use the most updated version</span>
         run: git submodule update --init --recursive
 
       - name: Setup hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: <span style=color:#e6db74>&#34;0.64.0&#34;</span>  
+          hugo-version: <span style="color:#e6db74">&#34;0.64.0&#34;</span>  
 
       - name: Build
-        <span style=color:#75715e># remove --minify tag if you do not need it</span>
-        <span style=color:#75715e># docs: https://gohugo.io/hugo-pipes/minification/</span>
+        <span style="color:#75715e"># remove --minify tag if you do not need it</span>
+        <span style="color:#75715e"># docs: https://gohugo.io/hugo-pipes/minification/</span>
         run: hugo --minify
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: <span style=color:#e6db74>${</span>{ secrets.TOKEN <span style=color:#e6db74>}</span><span style=color:#f92672>}</span>
-          external_repository: mauro/mauro.github.io <span style=color:#75715e># En este ejemplo sería así</span>
+          personal_token: <span style="color:#e6db74">${</span>{ secrets.TOKEN <span style="color:#e6db74">}</span><span style="color:#f92672">}</span>
+          external_repository: mauro/mauro.github.io <span style="color:#75715e"># En este ejemplo sería así</span>
           publish_dir: ./public
-          <span style=color:#75715e>#   keep_files: true</span>
-          user_name: &lt;username&gt; <span style=color:#75715e>#Solo tu usuario de GitHub</span>
-          user_email: &lt;username@email.com&gt; <span style=color:#75715e>#Tu correo electrónico</span>
+          <span style="color:#75715e">#   keep_files: true</span>
+          user_name: &lt;username&gt; <span style="color:#75715e">#Solo tu usuario de GitHub</span>
+          user_email: &lt;username@email.com&gt; <span style="color:#75715e">#Tu correo electrónico</span>
           publish_branch: master
-          cname: maurogabriel.com.ar <span style=color:#75715e>#Si no tenes un dominio podes comentar esta línea para deshabilitar la opcion.</span> 
-</code></pre></div><p>Grabamos este workflow y listo. GitHub ya sabrá que hacer cada vez que hagas un push de tu sitio en la consola.</p><p>De manera breve, cada vez que hagas una modificación en tu sitio local (/Users/mauro/Documents/Hugo) y luego al hacer push al repositorio Actions ejecutará el workflow main.yml, procesará los cambios (cargando el sitio entero de nuevo) y cargará los archivos renderizados .html a la carpeta Public que se alojara en <em><strong>mauro/mauro.github.io</strong></em>.</p><p>Podés probrar cargando un nuevo post en tu sitio local así</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>cd /Users/mauro/Documents/Hugo
+          cname: maurogabriel.com.ar <span style="color:#75715e">#Si no tenes un dominio podes comentar esta línea para deshabilitar la opcion.</span> 
+</code></pre></div><p>Grabamos este workflow y listo. GitHub ya sabrá que hacer cada vez que hagas un push de tu sitio en la consola.</p>
+<p>De manera breve, cada vez que hagas una modificación en tu sitio local (/Users/mauro/Documents/Hugo) y luego al hacer push al repositorio Actions ejecutará el workflow main.yml, procesará los cambios (cargando el sitio entero de nuevo) y cargará los archivos renderizados .html a la carpeta Public que se alojara en <em><strong>mauro/mauro.github.io</strong></em>.</p>
+<p>Podés probrar cargando un nuevo post en tu sitio local así</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /Users/mauro/Documents/Hugo
 hugo new posts/hello.md
-<span style=color:#75715e>#Podes modificar el archivo hello.md y luego continuar</span>
+<span style="color:#75715e">#Podes modificar el archivo hello.md y luego continuar</span>
 git init
 git add .
-git commit -m <span style=color:#e6db74>&#34;Nuevo Post&#34;</span>
+git commit -m <span style="color:#e6db74">&#34;Nuevo Post&#34;</span>
 git push origin master
-</code></pre></div><p>Y eso es todo, ahora dejás que el workflow renderice todo y ya podés entrar a tu sitio, por ejemplo mauro.github.io para ver los resultados.</p><p><a href=https://ruddra.com/hugo-deploy-static-page-using-github-actions/#step-3-push-hugo-site-code-in-github>Fuente</a></p></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=https://maurogabriel.com.ar/posts/simple-shortcode-to-insert-html-block-on-hugo/><span class=button__icon>←</span>
-<span class=button__text>Simple Shortcode to Insert Raw HTML in Hugo</span></a></span>
-<span class="button next"><a href=https://maurogabriel.com.ar/posts/introduction-to-hugo-templating/><span class=button__text>Introduction to Hugo Templating</span>
-<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user">@ 2020 Mauro Gabriel</div></div></footer><script src=https://maurogabriel.com.ar/assets/main.js></script><script src=https://maurogabriel.com.ar/assets/prism.js></script></div></body></html>
+</code></pre></div><p>Y eso es todo, ahora dejás que el workflow renderice todo y ya podés entrar a tu sitio, por ejemplo mauro.github.io para ver los resultados.</p>
+<p><a href="https://ruddra.com/hugo-deploy-static-page-using-github-actions/#step-3-push-hugo-site-code-in-github">Fuente</a></p>
+
+    </div>
+    
+      
+        <div class="pagination">
+          <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+          </div>
+          <div class="pagination__buttons">
+            
+              <span class="button previous">
+                <a href="https://maurogabriel.com.ar/posts/simple-shortcode-to-insert-html-block-on-hugo/">
+                  <span class="button__icon">←</span>
+                  <span class="button__text">Simple Shortcode to Insert Raw HTML in Hugo</span>
+                </a>
+              </span>
+            
+            
+              <span class="button next">
+                <a href="https://maurogabriel.com.ar/posts/introduction-to-hugo-templating/">
+                  <span class="button__text">Introduction to Hugo Templating</span>
+                  <span class="button__icon">→</span>
+                </a>
+              </span>
+            
+          </div>
+        </div>
+      
+    
+
+
+    
+      
+        
+
+      
+    
+
+    </div>
+
+      </div>
+
+      
+        <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user">@ 2020 Mauro Gabriel</div>
+    
+  </div>
+</footer>
+
+<script src="https://maurogabriel.com.ar/assets/main.js"></script>
+<script src="https://maurogabriel.com.ar/assets/prism.js"></script>
+
+
+      
+    </div>
+
+    
+  </body>
+</html>
